@@ -17,27 +17,33 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="teipages">
+            <!-- Links found -->
                 <elementSpec ident="ab" mode="change">
-                    <!-- <model behaviour="paragraph" cssClass="exampleClass" predicate = "false()">
-                        <outputRendition>font-style: italics;</outputRendition>
-                    </model> -->
                     <model behaviour="link">
                     </model>
                 </elementSpec>
+                <elementSpec ident="ref" mode="change">
+                    <model behaviour="link">
+                    </model>
+                </elementSpec>
+                <!-- Paragraph -->
                 <elementSpec ident="p" mode="change">
                     <!-- Added a predicate which is set to true() so the condition passes. It can be replaced by any 
                     predicate path to work. Can also set it to test if it's working or not. -->
                     <model behaviour="paragraph" cssClass="exampleClass" predicate = "true()">
-                        <outputRendition>font-style: italics;</outputRendition>
                     </model>
                 </elementSpec>
-                <elementSpec ident="add" mode="change">
-                    <!-- Some CSS somehwere defines:
-                        .testitalics {
-                          font-style: italics;
-                        }    
-                    -->
-                    <model behaviour="inline" cssClass="testitalics" />
+                <!-- Edits made -->
+                <elementSpec ident="add" mode="change"> <!-- Added differences between the behavior -->
+                    <model behaviour="inline" cssClass="testItalics" predicate="true()">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                </elementSpec>
+
+                <elementSpec ident="del" mode="change">
+                    <model behaviour="inline" cssClass="testStrike" predicate="true()">
+                        <outputRendition>text-decoration: line-through;</outputRendition>
+                    </model>
                 </elementSpec>
 
                 <elementSpec ident="choice" mode="change">

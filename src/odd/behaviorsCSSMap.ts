@@ -133,5 +133,8 @@ export const BEHAVIOR_CSS_MAP: Record<string, string> = {
     font-weight: bold;
     font-size: 1.2em;
     margin: 0.5em 0;
-  `
+  `,
+  link: `
+    display: inline;
+  ` 
 };

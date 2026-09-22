@@ -150,7 +150,6 @@
            </p>
   
            <p>
-               <ab target="https://google.com">This is a testing link that i have created to test for issues, just erase this line</ab>
                <lb/>Intérogé Sur la Cite de <persName ref="#kl147">
                   <abbr>J.<hi rend="sup">n</hi>
                   </abbr> Baptiste</persName> 
@@ -348,7 +347,7 @@
             </bibl>
             See also
             <bibl>
-            Brian Wagner et al., <title level="a">Louisiana Slave Conspiracies</title>, University of California, Berkeley, https://lsc.berkeley.edu/ (last updated August 23, 2023).
+            Brian Wagner et al., <title level="a">Louisiana Slave Conspiracies</title>, University of California, Berkeley, <ref target="https://lsc.berkeley.edu/"> https://lsc.berkeley.edu/</ref> (last updated August 23, 2023).
             </bibl>
             </note>
          </noteGrp>

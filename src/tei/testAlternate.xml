@@ -18,7 +18,9 @@
       <head>Testing Alternate Behaviors</head>
       
       <p>This is a test document with various choice elements for demonstrating alternate content switching.</p>
-      
+      <div>
+        <ab target="https://google.com">This is a testing link that i have created to test for issues, just erase this line</ab>
+      </div>
       <div>
         <head>Sic/Corr Examples (Spelling Correction)</head>
         <p>The manuscript reads <choice>
