@@ -46,6 +46,12 @@
                     </model>
                 </elementSpec>
 
+                <!-- List Behaviors 
+                <elementSpec ident="list" mode="change">
+                    <model behaviour="list" predicate="not(head)">
+                        <outputRendition>font-style: normal;</outputRendition>
+                    </model>
+                </elementSpec> -->
                 <elementSpec ident="choice" mode="change">
                     <model predicate="sic and corr" behaviour="alternate">
                         <param name="default" value="corr[1]"/>
