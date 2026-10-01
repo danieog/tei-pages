@@ -44,6 +44,12 @@ export class ProcessOddPM {
 
   // Extracts behaviours from elementSpec and their models  
   // Generates respective CSS from BEHAVIOR_CSS_MAP that doesn't require js 
+  
+  // NOTE: predicate is intentionally NOT evaluated here anymore. buildCSS() only
+  // needs to know that a CSS rule exists for a given behaviour; whether a specific
+  // document instance matches the predicate is applyCSS()'s job, evaluated against
+  // the real document node. Predicate check is now commented out. 
+  // evaluateXPathToBoolean now commented out, may flag import as unused.
 
   buildCSS() {
 
@@ -59,9 +65,9 @@ export class ProcessOddPM {
         let cssClass = model.getAttribute("cssClass");
         let applicable = true;
 
-        if (predicate) {
-          applicable = evaluateXPathToBoolean(predicate, el, null, {}, {});
-        }
+        //if (predicate) {
+          //applicable = evaluateXPathToBoolean(predicate, el, null, {}, {});
+        //}
 
         if (applicable) {
           const behaviour = model.getAttribute("behaviour");
