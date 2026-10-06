@@ -36,6 +36,7 @@ const TEI_CONTAINER_ID = "tei-container";
 	{__TEI_BASE_ENABLED__ && <TeiBaseStyle/>}
 	<script> import CETEI from 'CETEIcean'; </script>
  	<main class="m-auto p-6 max-w-[65ch]">
+		<a href={import.meta.env.BASE_URL} class="inline-block mb-2 px-3 py-1 rounded-md bg-amber-50 text-gray-700 shadow hover:bg-amber-100">&larr; Back to home</a>
 		<!-- Render alternate behavior component if alternate behaviors are defined -->
 		<Alternate altBehaviors={clientBehaviorsMap["alternate"]} teiDataId={TEI_CONTAINER_ID} />
 		<!-- Injecting the HTML5 for rendering by the browser -->

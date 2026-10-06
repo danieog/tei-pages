@@ -175,3 +175,4 @@ Add to your ODD file:
   <model behaviour="block" cssClass="my-custom-class"/>
 </elementSpec>
 ```
+NOTE: The cssClass can be defined as anything, just make sure it's relevant to the behvaior you're adding. 

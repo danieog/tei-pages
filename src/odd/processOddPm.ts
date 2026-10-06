@@ -80,10 +80,10 @@ export class ProcessOddPM {
             outputRenditionCSS += `${outputRendition.textContent}\n`;
           });
 
-          if (cssClass) {
-            this.css += `tei-${id}, .${cssClass} {\n ${behaviourCSS} ${outputRenditionCSS}}\n`;
-          }
-          this.css += `tei-${id} {\n ${behaviourCSS} ${outputRenditionCSS}}\n`;
+          // Class-scoped rules only apply where the predicate passed in applyCSS();
+          // a tag-wide rule would ignore the predicate.
+          const selector = cssClass ? `.${cssClass}` : `tei-${id}`;
+          this.css += `${selector} {\n ${behaviourCSS} ${outputRenditionCSS}}\n`;
         }
       });
     });
@@ -176,7 +176,7 @@ export class ProcessOddPM {
             node.setAttribute("class", ((node.getAttribute("class") || "") + " " + cssClass).trim());
           }
         } 
-      } else { // If there is no predicate, apply the class to all target nodes. 
+      } else if (cssClass) { // If there is no predicate, apply the class to all target nodes.
         Array.from(targetNodes).forEach( elt => {
           elt.setAttribute("class",(elt.getAttribute("class") || "") + " " + cssClass);
         });

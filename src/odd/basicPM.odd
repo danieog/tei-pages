@@ -35,23 +35,29 @@
                 </elementSpec>
                 <!-- Edits made -->
                 <elementSpec ident="add" mode="change"> <!-- Added differences between the behavior -->
-                    <model behaviour="inline" cssClass="testItalics" predicate="true()">
-                        <outputRendition>font-style: italic;</outputRendition>
+                    <model behaviour="inline" cssClass="addChanges" predicate="true()">
+                        <outputRendition> text-decoration: underline;</outputRendition>
                     </model>
                 </elementSpec>
-
+                <!-- header changes-->
+                <elementSpec>
+                </elementSpec>
+                <!-- deletions and additions -->
                 <elementSpec ident="del" mode="change">
-                    <model behaviour="inline" cssClass="testStrike" predicate="true()">
+                    <model behaviour="inline" cssClass="delChanges" predicate="true()">
                         <outputRendition>text-decoration: line-through;</outputRendition>
                     </model>
                 </elementSpec>
-
-                <!-- List Behaviors 
+                <!-- List Behaviors -->
                 <elementSpec ident="list" mode="change">
-                    <model behaviour="list" predicate="not(head)">
-                        <outputRendition>font-style: normal;</outputRendition>
+                    <model behaviour="list" cssClass="teiList" predicate="true()">
                     </model>
-                </elementSpec> -->
+                </elementSpec>
+                <elementSpec ident="head" mode="change">
+                    <model behaviour="heading" cssClass="listHead" predicate="parent::list">
+                        <outputRendition>font-size: 1.1em; margin-left: -2em;</outputRendition>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="choice" mode="change">
                     <model predicate="sic and corr" behaviour="alternate">
                         <param name="default" value="corr[1]"/>
