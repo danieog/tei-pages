@@ -170,7 +170,10 @@ export class ProcessOddPM {
      
       if (cssClass && predicate) {
         for (const node of targetNodes) {
-          const shouldApply = evaluateXPathToBoolean(predicate, node, null, namespaceResolver);
+          // namespaceResolver goes in the 5th argument (options). In the 4th slot fontoxpath treats it as
+          // XPath variables and ignores it, so prefixed predicates such as "tei:sic" threw XPST0081.
+          // const shouldApply = evaluateXPathToBoolean(predicate, node, null, namespaceResolver);
+          const shouldApply = evaluateXPathToBoolean(predicate, node, null, null, { namespaceResolver });
           // Only apply class if predicate passes
           if (shouldApply) {
             node.setAttribute("class", ((node.getAttribute("class") || "") + " " + cssClass).trim());
@@ -178,7 +181,8 @@ export class ProcessOddPM {
         } 
       } else if (cssClass) { // If there is no predicate, apply the class to all target nodes.
         Array.from(targetNodes).forEach( elt => {
-          elt.setAttribute("class",(elt.getAttribute("class") || "") + " " + cssClass);
+          // elt.setAttribute("class",(elt.getAttribute("class") || "") + " " + cssClass);
+          elt.setAttribute("class", ((elt.getAttribute("class") || "") + " " + cssClass).trim());
         });
       }
     }
