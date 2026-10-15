@@ -88,13 +88,13 @@ export class ProcessOddPM {
       });
     });
   }
-
+  
   // Extract client-side behavior configurations from ODD file
   // Analyzes the ODD to determine which behaviors are needed and their configuration
   // Returns a mapping of behaviors to their configurations
 
   buildClientBehaviors() {
-    
+
     // Analyze models for client behaviors
     this.oddModels.forEach((model) => {
       const behavior = model.getAttribute("behaviour");
@@ -106,20 +106,30 @@ export class ProcessOddPM {
           this.clientBehaviorsMap["alternate"] = [];
         }
         // Extract predicate ("sic and corr" -> ["sic", "corr"])
-        const matches  = (predicate) ? predicate.match(/\b([a-z]+)\b/g) : [];
-        let predicateEl : string[] = (matches) ? matches.filter(name => name !== "and") : [];
-        let defaultChoice : string | null = null, altChoice: string | null = null;  
+        // Fallback names read from the predicate, used only when <param> values don't supply them.
+        // Only an exact "X and Y" of plain element names is accepted ("sic and corr" -> default "sic",
+        // alternate "corr"; the first name is the default). Any other predicate shape is left unset here
+        // and reported below, rather than guessing names out of the string (which turned "sic or corr"
+        // into an alternate called "or").
+        const simplePredicate = (predicate) ? predicate.match(/^\s*([A-Za-z][\w.-]*)\s+and\s+([A-Za-z][\w.-]*)\s*$/) : null;
+        // const matches  = (predicate) ? predicate.match(/\b([a-z]+)\b/g) : [];
+        // let predicateEl : string[] = (matches) ? matches.filter(name => name !== "and") : [];
+        let defaultChoice : string | null = null, altChoice: string | null = null;
 
-        if (predicateEl[0] && predicateEl[1]) {
-          defaultChoice = predicateEl[0];
-          altChoice = predicateEl[1];
+        if (simplePredicate) {
+          defaultChoice = simplePredicate[1];
+          altChoice = simplePredicate[2];
         }
-        
+        // if (predicateEl[0] && predicateEl[1]) {
+        //   defaultChoice = predicateEl[0];
+        //   altChoice = predicateEl[1];
+        // }
+
         // get default and alternate from param elements
         model.querySelectorAll("param").forEach((param) => {
           const name = param.getAttribute("name"), value = param.getAttribute("value");
           // Extract element name from xpath-like syntax (e.g., "corr[1]" -> "corr")
-          if (value) { 
+          if (value) {
             const choiceEl = this.extractXPathName(value);
             if(choiceEl) {
               if (name === "default") {
@@ -128,16 +138,19 @@ export class ProcessOddPM {
                 altChoice = choiceEl;
               }
             }
-          } 
+          }
         });
         // Build  array from extracted options
-        if (defaultChoice && altChoice) {        
+        if (defaultChoice && altChoice) {
           this.clientBehaviorsMap["alternate"].push({
             name: `alternate ${id}: ${predicate}`,
             parent: id,
             default: defaultChoice,
             alternate: altChoice,
           });
+        } else {
+          console.warn(`[TEI Pages] No "alternate" toggle built for <${id}> (predicate: ${predicate ?? "none"}). ` +
+            `Add <param name="default"> and <param name="alternate"> to the model, or use a predicate shaped like "sic and corr".`);
         }
       }
     });
