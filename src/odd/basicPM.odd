@@ -26,38 +26,43 @@
                     <model behaviour="link">
                     </model>
                 </elementSpec>
-                <!-- Paragraph -->
-                <elementSpec ident="p" mode="change">
-                    <!-- Added a predicate which is set to true() so the condition passes. It can be replaced by any 
-                    predicate path to work. Can also set it to test if it's working or not. -->
-                    <model behaviour="paragraph" cssClass="exampleClass" predicate = "true()">
-                    </model>
-                </elementSpec>
                 <!-- Edits made -->
-                <elementSpec ident="add" mode="change"> <!-- Added differences between the behavior -->
-                    <model behaviour="inline" cssClass="addChanges" predicate="true()">
-                        <outputRendition> text-decoration: underline;</outputRendition>
-                    </model>
-                </elementSpec>
-                <!-- header changes-->
-                <elementSpec>
-                </elementSpec>
-                <!-- deletions and additions -->
+                
+                <!-- deletions and additions (aria text is being added to the label) -->
                 <elementSpec ident="del" mode="change">
                     <model behaviour="inline" cssClass="delChanges" predicate="true()">
+                        <param name="srBefore" value="Text deleted by the author " />
                         <outputRendition>text-decoration: line-through;</outputRendition>
                     </model>
                 </elementSpec>
-                <!-- List Behaviors -->
-                <elementSpec ident="list" mode="change">
-                    <model behaviour="list" cssClass="teiList" predicate="true()">
+
+                <elementSpec ident="add" mode="change"> 
+                    <model behaviour="inline" cssClass="addChanges" predicate="true()">
+                        <param name="srBefore" value="Text added by the author " />
+                        <outputRendition> text-decoration: underline; text-decoration: italics;</outputRendition>
                     </model>
                 </elementSpec>
+
+                <!-- Heads -->
                 <elementSpec ident="head" mode="change">
                     <model behaviour="heading" cssClass="listHead" predicate="parent::list">
                         <outputRendition>font-size: 1.1em; margin-left: -2em;</outputRendition>
                     </model>
                 </elementSpec>
+
+                <elementSpec ident="head" mode="change">
+                    <model behaviour="heading" cssClass="lgHead" predicate="parent::lg">
+                        <outputRendition>font-size: 1em; </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- List Behaviors -->
+                <elementSpec ident="list" mode="change">
+                    <model behaviour="list" cssClass="teiList" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Choices -->
                 <elementSpec ident="choice" mode="change">
                     <model predicate="sic and corr" behaviour="alternate">
                         <param name="default" value="corr[1]"/>
@@ -70,6 +75,234 @@
                     <model predicate="orig and reg" behaviour="alternate">
                         <param name="default" value="reg[1]"/>
                         <param name="alternate" value="orig[1]"/>
+                    </model>
+                </elementSpec>
+                <!-- Hi -->
+                <elementSpec ident="hi" mode="change">
+                    <model behaviour="inline" cssClass="hiItalic" predicate="@rend='italic'">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="hiBold" predicate="@rend='bold'">
+                        <outputRendition>font-weight: bold;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="hiSup" predicate="@rend='superscript'">
+                        <outputRendition>vertical-align: super; font-size: smaller;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="hiSub" predicate="@rend='subscript'">
+                        <outputRendition>vertical-align: sub; font-size: smaller;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="hiUnderline" predicate="@rend='underline'">
+                        <outputRendition>text-decoration: underline;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="hiSmallcaps" predicate="@rend='smallcaps'">
+                        <outputRendition>font-variant: small-caps;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="hiRend" predicate="@rend">
+                    </model>
+                    <model behaviour="inline" cssClass="hi" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Emphasis -->
+                <elementSpec ident="emph" mode="change">
+                    <model behaviour="inline" cssClass="emph" predicate="true()">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- Foreign -->
+                <elementSpec ident="foreign" mode="change">
+                    <model behaviour="inline" cssClass="foreignLang" predicate="@xml:lang">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="foreign" predicate="not(@xml:lang)">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- Title -->
+                <elementSpec ident="title" mode="change">
+                    <model behaviour="inline" cssClass="titleHeader" predicate="parent::titleStmt">
+                    </model>
+                    <model behaviour="inline" cssClass="titleArticle" predicate="@level='a'">
+                        <outputRendition>font-style: normal;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="titleMonograph" predicate="@level='m'">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="titleJournal" predicate="@level='j'">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="titleSeries" predicate="@level='s'">
+                        <outputRendition>font-style: normal;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="titleUnpublished" predicate="@level='u'">
+                        <outputRendition>font-style: normal;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="title" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Seg -->
+                <elementSpec ident="seg" mode="change">
+                    <model behaviour="inline" cssClass="segType" predicate="@type">
+                    </model>
+                    <model behaviour="inline" cssClass="segRend" predicate="@rend">
+                    </model>
+                    <model behaviour="inline" cssClass="seg" predicate="not(@type)">
+                    </model>
+                </elementSpec>
+
+                <!-- Quote / Q -->
+                <elementSpec ident="quote" mode="change">
+                    <model behaviour="inline" cssClass="citQuote" predicate="parent::cit">
+                    </model>
+                    <model behaviour="block" cssClass="quoteBlock" predicate="@rend='block'">
+                        <outputRendition>margin-left: 2em;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="quoteNested" predicate="ancestor::quote or ancestor::q">
+                    </model>
+                    <model behaviour="inline" cssClass="quote" predicate="true()">
+                    </model>
+                </elementSpec>
+                <elementSpec ident="q" mode="change">
+                    <model behaviour="inline" cssClass="qSpeech" predicate="parent::sp">
+                    </model>
+                    <model behaviour="inline" cssClass="qNested" predicate="ancestor::quote or ancestor::q">
+                    </model>
+                    <model behaviour="inline" cssClass="q" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Epigraph / Cit -->
+                <elementSpec ident="epigraph" mode="change">
+                    <model behaviour="block" cssClass="epigraphCit" predicate="parent::epigraph">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                    <model behaviour="block" cssClass="epigraph" predicate="true()">
+                    </model>
+                </elementSpec>
+                <elementSpec ident="cit" mode="change">
+                    <model behaviour="block" cssClass="citBibl" predicate="quote and bibl">
+                    </model>
+                    <model behaviour="block" cssClass="citNoBibl" predicate="quote and not(bibl)">
+                    </model>
+                </elementSpec>
+
+                <!-- Ex -->
+                <elementSpec ident="ex" mode="change">
+                    <model behaviour="inline" cssClass="exInExpan" predicate="parent::expan">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="ex" predicate="not(parent::expan)">
+                        <outputRendition>font-style: italic;</outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- Supplied -->
+                <elementSpec ident="supplied" mode="change">
+                    <model behaviour="inline" cssClass="suppliedOmitted" predicate="@reason='omitted'">
+                    </model>
+                    <model behaviour="inline" cssClass="suppliedIllegible" predicate="@reason='illegible'">
+                    </model>
+                    <model behaviour="inline" cssClass="suppliedDamage" predicate="@reason='damage'">
+                    </model>
+                    <model behaviour="inline" cssClass="suppliedLost" predicate="@reason='lost'">
+                    </model>
+                    <model behaviour="inline" cssClass="suppliedSource" predicate="@source">
+                    </model>
+                    <model behaviour="inline" cssClass="supplied" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Unclear -->
+                <elementSpec ident="unclear" mode="change">
+                    <model behaviour="inline" cssClass="unclearIllegible" predicate="@reason='illegible'">
+                    </model>
+                    <model behaviour="inline" cssClass="unclearFaded" predicate="@reason='faded'">
+                    </model>
+                    <model behaviour="inline" cssClass="unclearCertLow" predicate="@cert='low'">
+                    </model>
+                    <model behaviour="inline" cssClass="unclearCertMedium" predicate="@cert='medium'">
+                    </model>
+                    <model behaviour="inline" cssClass="unclearCertHigh" predicate="@cert='high'">
+                    </model>
+                    <model behaviour="inline" cssClass="unclear" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Damage / Gap -->
+                <elementSpec ident="damage" mode="change">
+                    <model behaviour="inline" cssClass="damageHigh" predicate="@degree='high'">
+                    </model>
+                    <model behaviour="inline" cssClass="damageLow" predicate="@degree='low'">
+                    </model>
+                    <model behaviour="inline" cssClass="damageAgent" predicate="@agent">
+                    </model>
+                    <model behaviour="inline" cssClass="damage" predicate="true()">
+                    </model>
+                </elementSpec>
+                <elementSpec ident="gap" mode="change">
+                    <model behaviour="inline" cssClass="gapIllegible" predicate="@reason='illegible'">
+                    </model>
+                    <model behaviour="inline" cssClass="gapLost" predicate="@reason='lost'">
+                    </model>
+                    <model behaviour="inline" cssClass="gapOmitted" predicate="@reason='omitted'">
+                    </model>
+                    <model behaviour="inline" cssClass="gapExtent" predicate="@quantity or @extent">
+                    </model>
+                    <model behaviour="inline" cssClass="gap" predicate="true()">
+                    </model>
+                </elementSpec>
+
+                <!-- Add / Del place and rend -->
+                <elementSpec ident="add" mode="change">
+                    <model behaviour="inline" cssClass="addAbove" predicate="@place='above'">
+                    </model>
+                    <model behaviour="inline" cssClass="addBelow" predicate="@place='below'">
+                    </model>
+                    <model behaviour="inline" cssClass="addMargin" predicate="@place='margin'">
+                    </model>
+                    <model behaviour="inline" cssClass="addInline" predicate="@place='inline'">
+                    </model>
+                    <model behaviour="inline" cssClass="addOverwritten" predicate="@place='overwritten'">
+                    </model>
+                    <model behaviour="inline" cssClass="addSubst" predicate="ancestor::subst">
+                    </model>
+                </elementSpec>
+                <elementSpec ident="del" mode="change">
+                    <model behaviour="inline" cssClass="delStrike" predicate="@rend='strikethrough'">
+                        <outputRendition>text-decoration: line-through;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="delOverstrike" predicate="@rend='overstrike'">
+                        <outputRendition>text-decoration: line-through;</outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="delErasure" predicate="@rend='erasure'">
+                    </model>
+                    <model behaviour="inline" cssClass="delSubst" predicate="ancestor::subst">
+                    </model>
+                </elementSpec>
+
+                <!-- Add / Del span -->
+                <elementSpec ident="addSpan" mode="change">
+                    <model behaviour="inline" cssClass="addSpan" predicate="@spanTo">
+                    </model>
+                </elementSpec>
+                <elementSpec ident="delSpan" mode="change">
+                    <model behaviour="inline" cssClass="delSpan" predicate="@spanTo">
+                        <outputRendition>text-decoration: line-through;</outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- Anchor -->
+                <elementSpec ident="anchor" mode="change">
+                    <model behaviour="inline" cssClass="anchorSpanTarget" predicate="@xml:id = //@spanTo/substring(., 2)">
+                    </model>
+                    <model behaviour="inline" cssClass="anchorId" predicate="@xml:id">
+                    </model>
+                    <model behaviour="inline" cssClass="anchorCorresp" predicate="@corresp">
+                    </model>
+                    <model behaviour="inline" cssClass="anchorType" predicate="@type">
                     </model>
                 </elementSpec>
             </schemaSpec>

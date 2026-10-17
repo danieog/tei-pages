@@ -19,7 +19,16 @@
       
       <p>This is a test document with various choice elements for demonstrating alternate content switching.</p>
       <div>
-        <ab target="https://google.com">This is a testing link that i have created to test for issues, just erase this line</ab>
+      <head> Link Changes </head>
+      <p>
+        <ab target="https://google.com"> Click here to Google more stuff about XML and TEI! </ab>
+      </p>
+      </div>
+      <div>
+      <head> Deletion and Adding Text (tested with NVDA) </head>
+      <p>
+        i like <del> appels </del> <add> apples </add> and bananas... <add> me too bro me too </add>
+      </p>
       </div>
       <div>
         <head>Sic/Corr Examples (Spelling Correction)</head>
@@ -78,6 +87,66 @@
           <orig>connexions</orig>
           <reg>connections</reg>
         </choice> to the research.</p>
+      </div>
+
+      <div>
+        <head>Standalone Choice Children</head>
+        <p>Only a sic: <choice><sic>teh</sic></choice>. Only a corr: <choice><corr>the</corr></choice>. Only an abbr: <choice><abbr>Dr.</abbr></choice>. Only an expan: <choice><expan>Doctor</expan></choice>. Only an orig: <choice><orig>vv</orig></choice>. Only a reg: <choice><reg>w</reg></choice>. With unclear: <choice><unclear>hlaf</unclear><unclear>half</unclear></choice>.</p>
+      </div>
+
+      <div>
+        <head>Hi Examples</head>
+        <p>This is <hi rend="italic">italic</hi>, <hi rend="bold">bold</hi>, <hi rend="superscript">superscript</hi>, <hi rend="subscript">subscript</hi>, <hi rend="underline">underlined</hi>, <hi rend="smallcaps">small caps</hi>, <hi rend="other">another rend</hi> and <hi>plain hi</hi>.</p>
+        <p>This word is <emph>emphasized</emph>, and this one is <foreign xml:lang="fr">français</foreign>, while this one has <foreign>no language</foreign>.</p>
+      </div>
+
+      <div>
+        <head>Title and Seg Examples</head>
+        <p><title level="a">An Article</title>, <title level="m">A Monograph</title>, <title level="j">A Journal</title>, <title level="s">A Series</title>, <title level="u">An Unpublished Work</title>, <title>An Untyped Title</title>.</p>
+        <p><seg type="phrase">typed seg</seg>, <seg rend="bold">rend seg</seg>, <seg>plain seg</seg>.</p>
+      </div>
+
+      <div>
+        <head>Quote Examples</head>
+        <p>She said <q>hello there</q> and then <quote>a short quotation</quote>.</p>
+        <p>Nested: <quote>outer <q>inner quote</q> outer</quote>.</p>
+        <quote rend="block">A longer block quotation that stands apart from the surrounding text.</quote>
+        <cit>
+          <quote>To be, or not to be</quote>
+          <bibl>Hamlet, III.i</bibl>
+        </cit>
+        <cit>
+          <quote>A quotation without a source</quote>
+        </cit>
+        <epigraph>
+          <quote>All that glitters is not gold.</quote>
+        </epigraph>
+        <sp>
+          <speaker>Alice</speaker>
+          <p><q>Spoken words inside a speech.</q></p>
+        </sp>
+      </div>
+
+      <div>
+        <head>Editorial Examples</head>
+        <p>The word <expan>abbr<ex>eviation</ex></expan> has an expansion, and <ex>this</ex> is a standalone ex.</p>
+        <p>Supplied: <supplied reason="omitted">omitted</supplied>, <supplied reason="illegible">illegible</supplied>, <supplied reason="damage">damage</supplied>, <supplied reason="lost">lost</supplied>, <supplied source="#ed1">sourced</supplied>, <supplied>plain</supplied>.</p>
+        <p>Unclear: <unclear reason="illegible">illegible</unclear>, <unclear reason="faded">faded</unclear>, <unclear cert="low">low</unclear>, <unclear cert="medium">medium</unclear>, <unclear cert="high">high</unclear>, <unclear>plain</unclear>.</p>
+        <p>Damage: <damage degree="high">high</damage>, <damage degree="low">low</damage>, <damage agent="water">water</damage>, <damage>plain</damage>.</p>
+        <p>Gap: <gap reason="illegible"/> <gap reason="lost"/> <gap reason="omitted"/> <gap quantity="3" unit="chars"/> <gap/></p>
+      </div>
+
+      <div>
+        <head>Add and Del Placement</head>
+        <p>Add: <add place="above">above</add>, <add place="below">below</add>, <add place="margin">margin</add>, <add place="inline">inline</add>, <add place="overwritten">overwritten</add>.</p>
+        <p>Del: <del rend="strikethrough">strikethrough</del>, <del rend="overstrike">overstrike</del>, <del rend="erasure">erasure</del>.</p>
+        <p>Substitution: <subst><del>old</del><add>new</add></subst>.</p>
+      </div>
+
+      <div>
+        <head>Spans and Anchors</head>
+        <p><addSpan spanTo="#end1"/>Added span of text<anchor xml:id="end1"/> followed by <delSpan spanTo="#end2"/>deleted span of text<anchor xml:id="end2"/>.</p>
+        <p>Anchors: <anchor xml:id="a1"/><anchor corresp="#end1"/><anchor type="note"/></p>
       </div>
     </body>
   </text>

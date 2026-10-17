@@ -7,6 +7,21 @@ import * as fs from 'fs';
 import type { TeiPagesConfig } from "../odd/teipages.config";
 import { BEHAVIOR_CSS_MAP } from "../odd/behaviorsCSSMap";
 
+// CSS for ScreenReader only text! Usable for any text that calls for this!
+const SR_ONLY_CSS = `.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+`;
+
 // Processes given TEI-XML documents with respect to given processing model 'oddPM'.
 
 export class ProcessOddPM {
@@ -87,6 +102,7 @@ export class ProcessOddPM {
         }
       });
     });
+    this.css += SR_ONLY_CSS; // adds the screen reader only text
   }
 
   // Extract client-side behavior configurations from ODD file
@@ -223,7 +239,9 @@ export class ProcessOddPM {
     }
 
     this.cetei.addBehaviors(cBehaviors);
-    return serialize(this.cetei.domToHTML5(teiDom, undefined, null));
+    const html = this.cetei.domToHTML5(teiDom, undefined, null);
+    this.addScreenReaderLabels(html);
+    return serialize(html);
   }
 
   // Extract first element/attribute name from various XPath patterns
@@ -234,5 +252,29 @@ export class ProcessOddPM {
       .replace(/^@/, '')         // Remove @ for attributes
       .replace(/\[.*$/, '')      // Remove predicates [1], [@attr='val']
       .replace(/^([a-zA-Z]+).*$/, '$1') || null;
+  }
+
+  // Prepends visually hidden text to elements whose ODD model has an srBefore param
+  addScreenReaderLabels(root: Element) {
+    const doc = root.ownerDocument;
+    this.oddModels.forEach(model => {
+      // srBefore is the name for the parameter!!! this will read it before!
+      const label = model.querySelector('param[name="srBefore"]')?.getAttribute("value");
+      if (!label) return;
+      const id = (model.parentNode as Element).getAttribute("ident")!;
+
+      root.querySelectorAll(`tei-${id}`).forEach(el => {
+        // Don't double-inject if this runs on already-processed output
+        const alreadyLabeled = Array.from(el.children).some(
+          c => (c.getAttribute("class") || "").split(/\s+/).includes("sr-only")
+        );
+        if (alreadyLabeled) return;
+
+        const span = doc.createElement("span");
+        span.setAttribute("class", "sr-only");
+        span.textContent = label;
+        el.insertBefore(span, el.firstChild);
+      });
+    });
   }
 }
